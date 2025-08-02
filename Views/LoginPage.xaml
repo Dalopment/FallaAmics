@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Falla_Amics.ViewModels"
+             x:Class="Falla_Amics.Views.LoginPage">
+
+    <Grid RowDefinitions="*,*,*">
+        
+        <Image Source="bgFalla.jpeg" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFill"
+               ZIndex="0" Grid.RowSpan="3"/>
+        
+        <VerticalStackLayout Grid.Row="2" Spacing="10">
+            
+            <!--Entry Usuario-->
+            <Border BackgroundColor="White" HeightRequest="60" WidthRequest="350" StrokeThickness="0" Padding="10">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10"/>
+                </Border.StrokeShape>
+                <Grid ColumnDefinitions="0.1*,0.9*">
+                    <Label Text="&#xe853;" FontFamily="MaterialIcons" TextColor="#404040" 
+                           VerticalOptions="Center" FontSize="24"/>
+                    <Entry VerticalOptions="Center" HorizontalOptions="FillAndExpand" Placeholder="Usuari"
+                           Grid.Column="1" FontFamily="OpenSansRegular" Text="{Binding Dni, Mode=TwoWay}"
+                           TextColor="#404040"/>
+                </Grid>
+            </Border>
+
+            <!--Entry Contraseña-->
+            <Border BackgroundColor="White" HeightRequest="60" WidthRequest="350" StrokeThickness="0" Padding="10">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10"/>
+                </Border.StrokeShape>
+                <Grid ColumnDefinitions="0.1*,0.8*,0.1*">
+                    <Label Text="&#xe897;" FontFamily="MaterialIcons" TextColor="#404040" 
+                           VerticalOptions="Center" FontSize="24"/>
+                    <Entry VerticalOptions="Center" HorizontalOptions="FillAndExpand" Placeholder="Contrasenya"
+                           Grid.Column="1" FontFamily="OpenSansRegular" Text="{Binding Contrasenya, Mode=TwoWay}"
+                           TextColor="#404040" IsPassword="{Binding IsPasswordHidden}"/>
+                    <Label Text="{Binding PasswordToggleIcon}" FontFamily="MaterialIcons" TextColor="{StaticResource GrisIconos}"
+                           VerticalOptions="Center" HorizontalOptions="Center" Grid.Column="2" FontSize="24">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding TogglePasswordCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Grid>
+            </Border>
+
+            <!--Recordar Contraseña-->
+            <Grid ColumnDefinitions="*,*">
+                <HorizontalStackLayout Grid.Column="0" Margin="20,0,0,0" TranslationY="-10">
+                    <CheckBox Color="#404040"/>
+                    <Label Text="Recordar Contrasenya" VerticalOptions="Center" FontFamily="OpenSansRegular" FontSize="15"
+                           TextColor="#404040"/>
+                </HorizontalStackLayout>
+            </Grid>
+
+            <!--Botón Aceptar-->
+            <Button Text="Aceptar" FontFamily="OpenSansRegular" TextColor="White" FontAttributes="Bold" BackgroundColor="#404040"
+                    HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" HeightRequest="50" CornerRadius="10"
+                    WidthRequest="250" Command="{Binding LoginCommand}">
+                <Button.Shadow>
+                    <Shadow Brush="#646464"
+                            Offset="5,5"
+                            Radius="5"/>
+                </Button.Shadow>
+            </Button>
+
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>
