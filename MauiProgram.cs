@@ -15,6 +15,7 @@ namespace Falla_Amics
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                     fonts.AddFont("Inter_24pt-Medium.ttf", "InterMedium");
                     fonts.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");
+                    fonts.AddFont("PlayfairDisplay-VariableFont_wght.ttf", "Playfair");
                 });
 
 #if DEBUG

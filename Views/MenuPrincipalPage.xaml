@@ -2,5 +2,102 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Falla_Amics.Views.MenuPrincipalPage"
-             Title="MenuPrincipalPage">
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#131a21">
+    <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+          RowDefinitions="0.15*,Auto,0.6*">
+        <!--Fondo-->
+        <Image Source="fondo.jpeg" Aspect="AspectFill" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+               Grid.RowSpan="3"/>
+        <!--Mensajes de Bienvenida-->
+        <Grid Grid.Row="0" RowDefinitions="0.4*,0.6*" ColumnDefinitions="*,*" RowSpacing="0" TranslationY="30"
+              Margin="20,0,0,0">
+            <Label Text="{Binding MensajeBienvenida}" Grid.Row="0" TextColor="Black" Grid.ColumnSpan="2"
+                   FontSize="27" FontFamily="Playfair" FontAttributes="Italic"/>
+            <Label Text="{Binding MensajeBienvenidaPersonalizado}" Grid.Row="1" TextColor="Black" Grid.ColumnSpan="2"
+                   FontSize="15" FontFamily="Playfair"/>
+            <!--Imagen del Perfil-->
+            <Border HeightRequest="90" WidthRequest="90" Grid.ColumnSpan="2" VerticalOptions="Center"
+                    HorizontalOptions="End" Margin="0,20,20,0" BackgroundColor="#ACACAC" StrokeThickness="0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="50"/>
+                </Border.StrokeShape>
+            </Border>
+        </Grid>
+        <!--Iconos Menú-->
+        <Grid RowDefinitions="*,*" ColumnDefinitions="*,*" Grid.Row="1" TranslationY="70" Padding="1" ColumnSpacing="4" RowSpacing="4">
+            <!--Icono 1-->
+            <Border Grid.Row="0" Grid.Column="0" HeightRequest="200" BackgroundColor="#98A9CFF4" StrokeThickness="2" Stroke="#A9CFF4">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="25"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout>
+                    <Label Text="Agenda" VerticalOptions="Start" HorizontalOptions="Start"
+                       TextColor="Black" FontFamily="Playfair" FontSize="36" Padding="10" FontAttributes="Italic"/>
+                    <Border WidthRequest="45" HeightRequest="45" VerticalOptions="End" HorizontalOptions="End" TranslationY="70" TranslationX="-10"
+                            BackgroundColor="#989DC0E3" StrokeThickness="0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="30"/>
+                        </Border.StrokeShape>
+                        <Label Text="&#xf8ce;" TextColor="{StaticResource GrisIconos}" FontFamily="MaterialIcons" VerticalOptions="Center"
+                               HorizontalOptions="Center" FontSize="30"/>
+                    </Border>
+                </VerticalStackLayout>
+            </Border>
+            <!--Icono 2-->
+            <Border Grid.Row="0" Grid.Column="1" HeightRequest="200" BackgroundColor="#98B8D8B8" StrokeThickness="2" Stroke="#B8D8B8">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="25"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout>
+                    <Label Text="Noticies" VerticalOptions="Start" HorizontalOptions="Start"
+                       TextColor="Black" FontFamily="Playfair" FontSize="36" Padding="10" FontAttributes="Italic"/>
+                    <Border WidthRequest="45" HeightRequest="45" VerticalOptions="End" HorizontalOptions="End" TranslationY="70" TranslationX="-10"
+                            BackgroundColor="#98ABC9AB" StrokeThickness="0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="30"/>
+                        </Border.StrokeShape>
+                        <Label Text="&#xf8ce;" TextColor="{StaticResource GrisIconos}" FontFamily="MaterialIcons" VerticalOptions="Center"
+                               HorizontalOptions="Center" FontSize="30"/>
+                    </Border>
+                </VerticalStackLayout>
+            </Border>
+            <!--Icono 3-->
+            <Border Grid.Row="1" Grid.Column="0" HeightRequest="200" BackgroundColor="#98F5D4C1" StrokeThickness="2" Stroke="#F5D4C1">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="25"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout>
+                    <Label Text="Fallers" VerticalOptions="Start" HorizontalOptions="Start"
+                       TextColor="Black" FontFamily="Playfair" FontSize="36" Padding="10" FontAttributes="Italic"/>
+                    <Border WidthRequest="45" HeightRequest="45" VerticalOptions="End" HorizontalOptions="End" TranslationY="70" TranslationX="-10"
+                            BackgroundColor="#98E4C5B3" StrokeThickness="0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="30"/>
+                        </Border.StrokeShape>
+                        <Label Text="&#xf8ce;" TextColor="{StaticResource GrisIconos}" FontFamily="MaterialIcons" VerticalOptions="Center"
+                               HorizontalOptions="Center" FontSize="30"/>
+                    </Border>
+                </VerticalStackLayout>
+            </Border>
+            <!--Icono 4-->
+            <Border Grid.Row="1" Grid.Column="1" HeightRequest="200" BackgroundColor="#98C5B3E8" StrokeThickness="2" Stroke="#C5B3E8">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="25"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout>
+                    <Label Text="Contacte" VerticalOptions="Start" HorizontalOptions="Start"
+                       TextColor="Black" FontFamily="Playfair" FontSize="36" Padding="10" FontAttributes="Italic"/>
+                    <Border WidthRequest="45" HeightRequest="45" VerticalOptions="End" HorizontalOptions="End" TranslationY="70" TranslationX="-10"
+                            BackgroundColor="#98B7A6D7" StrokeThickness="0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="30"/>
+                        </Border.StrokeShape>
+                        <Label Text="&#xf8ce;" TextColor="{StaticResource GrisIconos}" FontFamily="MaterialIcons" VerticalOptions="Center"
+                               HorizontalOptions="Center" FontSize="30"/>
+                    </Border>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </Grid>
 </ContentPage>
