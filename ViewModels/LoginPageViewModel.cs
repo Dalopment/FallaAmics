@@ -1,36 +1,33 @@
 ﻿using System.Windows.Input;
 using Falla_Amics.Models;
 using Falla_Amics.Services;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Storage;
 
 namespace Falla_Amics.ViewModels
 {
     public partial class LoginPageViewModel : BindableObject
     {
-        // Campos privados
         private bool isPasswordVisible = false;
         private string? dni;
         private string? contrasenya;
+        private bool recordarContrasenya;
 
-        // Servicio para manejar Firebase
         private readonly FirebaseServices firebaseService;
 
-        // Constructor
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "Uso seguro en MAUI para todas las plataformas.")]
         public LoginPageViewModel()
         {
             firebaseService = new FirebaseServices();
 
-            // Comandos para login y toggle de visibilidad de contraseña
             LoginCommand = new Command(async () => await LoginAsync());
             TogglePasswordCommand = new Command(TogglePasswordVisibility);
+
+            _ = CargarDatosGuardadosAsync();
         }
 
-        // Comandos públicos accesibles desde la vista
         public ICommand LoginCommand { get; }
         public ICommand TogglePasswordCommand { get; }
 
-        // Propiedad que indica si la contraseña está visible o no
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "Uso seguro en MAUI para todas las plataformas.")]
         public bool IsPasswordVisible
         {
             get => isPasswordVisible;
@@ -40,26 +37,33 @@ namespace Falla_Amics.ViewModels
                 {
                     isPasswordVisible = value;
                     OnPropertyChanged();
-                    OnPropertyChanged(nameof(PasswordToggleIcon)); // Actualiza el icono
-                    OnPropertyChanged(nameof(IsPasswordHidden));    // Actualiza la visibilidad inversa
+                    OnPropertyChanged(nameof(PasswordToggleIcon));
+                    OnPropertyChanged(nameof(IsPasswordHidden));
                 }
             }
         }
 
-        // Propiedad complementaria para bindear a la visibilidad "contraria"
         public bool IsPasswordHidden => !IsPasswordVisible;
-
-        // Propiedad que devuelve el código del icono según el estado de visibilidad
         public string PasswordToggleIcon => IsPasswordVisible ? "\ue8f5" : "\ue8f4";
 
-        // Método para alternar la visibilidad de la contraseña
         private void TogglePasswordVisibility()
         {
             IsPasswordVisible = !IsPasswordVisible;
         }
 
-        // Propiedad bindable para el DNI del usuario
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "Uso seguro en MAUI para todas las plataformas.")]
+        public bool RecordarContrasenya
+        {
+            get => recordarContrasenya;
+            set
+            {
+                if (recordarContrasenya != value)
+                {
+                    recordarContrasenya = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public string? Dni
         {
             get => dni;
@@ -73,8 +77,6 @@ namespace Falla_Amics.ViewModels
             }
         }
 
-        // Propiedad bindable para la contraseña del usuario
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "Uso seguro en MAUI para todas las plataformas.")]
         public string? Contrasenya
         {
             get => contrasenya;
@@ -88,13 +90,10 @@ namespace Falla_Amics.ViewModels
             }
         }
 
-        // Método asincrónico que maneja el login
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "Uso seguro en MAUI para todas las plataformas.")]
         private async Task LoginAsync()
         {
             try
             {
-                // Validación básica de campos vacíos
                 if (string.IsNullOrWhiteSpace(Dni) || string.IsNullOrWhiteSpace(Contrasenya))
                 {
                     await Shell.Current.DisplayAlert("Error", "El DNI y la contraseña no pueden estar vacíos", "Aceptar");
@@ -102,8 +101,6 @@ namespace Falla_Amics.ViewModels
                 }
 
                 var dniUpper = Dni.Trim().ToUpper();
-
-                // Consulta a Firebase para obtener el usuario por DNI
                 var usuario = await firebaseService.ObtenerFalleroPorDni(dniUpper);
 
                 if (usuario == null)
@@ -112,23 +109,47 @@ namespace Falla_Amics.ViewModels
                     return;
                 }
 
-                // Validación de contraseña
                 if (usuario.Contrasenya != Contrasenya)
                 {
                     await Shell.Current.DisplayAlert("Error", "Contraseña incorrecta", "Aceptar");
                     return;
                 }
 
-                // Guardar la instancia del usuario actual para acceso global
                 FalleroActual.Fallero = usuario;
 
-                // Navegar a la página principal de la app
+                if (RecordarContrasenya)
+                {
+                    Preferences.Set("Dni", Dni);
+                    Preferences.Set("Contrasenya", Contrasenya);
+                    Preferences.Set("RecordarContrasenya", true);
+                }
+                else
+                {
+                    Preferences.Remove("Dni");
+                    Preferences.Remove("Contrasenya");
+                    Preferences.Set("RecordarContrasenya", false);
+                }
+
                 await Shell.Current.GoToAsync("MenuPrincipalPage");
             }
             catch (Exception ex)
             {
-                // Mostrar cualquier error ocurrido
                 await Shell.Current.DisplayAlert("Error", $"Error: {ex.Message}", "Aceptar");
+            }
+        }
+
+        private async Task CargarDatosGuardadosAsync()
+        {
+            try
+            {
+                Dni = Preferences.Get("Dni", string.Empty);
+                Contrasenya = Preferences.Get("Contrasenya", string.Empty);
+                RecordarContrasenya = Preferences.Get("RecordarContrasenya", false);
+
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", $"Error al cargar datos guardados: {ex.Message}", "Aceptar");
             }
         }
     }

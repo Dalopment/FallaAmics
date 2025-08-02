@@ -48,7 +48,7 @@
             <!--Recordar Contraseña-->
             <Grid ColumnDefinitions="*,*">
                 <HorizontalStackLayout Grid.Column="0" Margin="20,0,0,0" TranslationY="-10">
-                    <CheckBox Color="#404040"/>
+                    <CheckBox Color="#404040" IsChecked="{Binding RecordarContrasenya, Mode=TwoWay}" />
                     <Label Text="Recordar Contrasenya" VerticalOptions="Center" FontFamily="OpenSansRegular" FontSize="15"
                            TextColor="#404040"/>
                 </HorizontalStackLayout>
